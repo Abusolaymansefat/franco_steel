@@ -2,12 +2,12 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// Temporary in-memory users for demo (replace with DB in production)
-let users = [
-  { id: 1, name: "Demo User", email: "demo@example.com", password: "123456" },
+// Temporary users (replace with DB in production)
+const users = [
+  { id: 1, email: "test@example.com", password: "123456", name: "Test User" },
 ];
 
-export const authOptions = {
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -16,8 +16,8 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: "Email", type: "text", placeholder: "email" },
+        password: { label: "Password", type: "password", placeholder: "password" },
       },
       async authorize(credentials) {
         const user = users.find(
@@ -30,11 +30,9 @@ export const authOptions = {
       },
     }),
   ],
-  session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
   },
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
