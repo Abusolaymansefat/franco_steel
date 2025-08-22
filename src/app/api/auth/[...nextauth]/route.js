@@ -2,12 +2,11 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// Temporary users (replace with DB in production)
 const users = [
   { id: 1, email: "test@example.com", password: "123456", name: "Test User" },
 ];
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -25,14 +24,16 @@ const handler = NextAuth({
             u.email === credentials.email &&
             u.password === credentials.password
         );
-        if (user) return user;
-        return null;
+        return user || null;
       },
     }),
   ],
   pages: {
     signIn: "/login",
   },
-});
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

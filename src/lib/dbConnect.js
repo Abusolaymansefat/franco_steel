@@ -1,10 +1,9 @@
-
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const uri = process.env.NEXTAUTH_PUBLIC_MONGODB_URI;
+const uri = process.env.NEXTAUTH_MONGODB_URI;
 
 if (!uri) {
-  throw new Error("Please define NEXTAUTH_PUBLIC_MONGODB_URI in .env");
+  throw new Error("Please define NEXTAUTH_MONGODB_URI in .env");
 }
 
 let client;
@@ -22,6 +21,6 @@ if (!client) {
 }
 
 export default async function dbConnect(collectionName) {
-  const db = (await clientPromise).db(process.env.DB_NAME);
+  const db = (await clientPromise).db(process.env.NEXTAUTH_DB_NAME);
   return db.collection(collectionName);
 }
