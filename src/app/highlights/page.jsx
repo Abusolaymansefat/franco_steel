@@ -12,7 +12,7 @@ export default function HighlightsPage() {
         {highlights.map((p) => (
           <div
             key={p.id}
-            className="border p-4 rounded shadow hover:shadow-lg transition "
+            className=" p-4 rounded shadow hover:shadow-lg transition "
           >
             <img
               src={p.image}
@@ -23,7 +23,7 @@ export default function HighlightsPage() {
             <p className="text-gray-700">{p.description}</p>
             <p className="font-semibold mt-2">${p.price}</p>
             <Link href={`/products/${p.id}`}>
-              <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+              <button className="mt-3 bg-[#84cae6] hover:bg-[#2d87aa] text-white px-4 py-2 rounded transition">
                 View Details
               </button>
             </Link>

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, use } from "react";
 import Image from "next/image";
+import { ScaleLoader } from "react-spinners";
 
 export default function ProductDetails({ params }) {
   const { id } = use(params);
@@ -18,7 +19,7 @@ export default function ProductDetails({ params }) {
       });
   }, [id]);
 
-  if (!product) return <div className="p-8">Loading...</div>;
+  if (!product) return <div className="p-8"><ScaleLoader /></div>;
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
