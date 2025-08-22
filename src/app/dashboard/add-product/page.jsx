@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -28,14 +29,14 @@ export default function AddProductPage() {
 
       const data = await res.json();
       if (res.ok) {
-        alert("✅ Product added to MongoDB successfully!");
+        toast.success("✅ Product added to MongoDB successfully!");
         router.push("/products");
       } else {
-        alert("❌ Failed to add product: " + data.message);
+        toast.error("❌ Failed to add product: " + data.message);
       }
     } catch (error) {
       console.error(error);
-      alert("❌ Error adding product");
+      toast.error("❌ Error adding product");
     }
   };
 
