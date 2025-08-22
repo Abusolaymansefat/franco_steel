@@ -1,19 +1,27 @@
+
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.sq4up6y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;;
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+const uri = process.env.NEXTAUTH_PUBLIC_MONGODB_URI;
 
-let dbClient;
+if (!uri) {
+  throw new Error("Please define NEXTAUTH_PUBLIC_MONGODB_URI in .env");
+}
+
+let client;
+let clientPromise;
+
+if (!client) {
+  client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
+  });
+  clientPromise = client.connect();
+}
 
 export default async function dbConnect(collectionName) {
-  if (!dbClient) {
-    dbClient = await client.connect();
-  }
-  return dbClient.db(process.env.DB_NAME).collection(collectionName);
+  const db = (await clientPromise).db(process.env.DB_NAME);
+  return db.collection(collectionName);
 }
